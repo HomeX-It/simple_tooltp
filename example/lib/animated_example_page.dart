@@ -45,7 +45,7 @@ class _AnimatedExamplePageState extends State<AnimatedExamplePage> {
                 child: Placeholder(),
               ),
               builder: (context, margin, builder) {
-                // print(_marginAnimationStatus);
+                debugPrint(_marginAnimationStatus.toString());
                 return Container(
                   margin: _marginAnimationStatus == AnimationStatus.forward
                       ? EdgeInsets.only(left: margin)

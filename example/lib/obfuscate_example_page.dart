@@ -11,9 +11,7 @@ class ObfuscateExamplePage extends StatefulWidget {
 
 class _ObfuscateExamplePageState extends State<ObfuscateExamplePage> {
   bool _show = false;
-  // bool hideOnTap = false;
   TooltipDirection _direction = TooltipDirection.down;
-  // bool _changeBorder = false;
   GlobalKey<SimpleTooltipState> _exampleTooltipKey = GlobalKey();
 
   @override
@@ -74,7 +72,6 @@ class _ObfuscateExamplePageState extends State<ObfuscateExamplePage> {
                             child: Container(
                               height: 100,
                               width: 300,
-                              // constraints: BoxConstraints(maxHeight: 300),
                               child: Card(
                                 child: Text("Hello"),
                               ),
@@ -92,8 +89,6 @@ class _ObfuscateExamplePageState extends State<ObfuscateExamplePage> {
                   key: _exampleTooltipKey,
                   show: _show,
                   tooltipDirection: _direction,
-                  // hideOnTooltipTap: hideOnTap,
-                  // borderWidth: _changeBorder ? 0 : 3,
                   child: Container(
                     color: Colors.cyan,
                     width: 80,

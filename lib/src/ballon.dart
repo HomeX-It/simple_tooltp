@@ -1,6 +1,6 @@
 part of tooltip;
 
-class _Balloon extends StatefulWidget {
+class _Ballon extends StatefulWidget {
   final TooltipDirection tooltipDirection;
   final Offset? targetCenter;
   final double borderRadius;
@@ -8,24 +8,16 @@ class _Balloon extends StatefulWidget {
   final double arrowTipDistance;
   final Color borderColor;
   final double borderWidth;
-  // final double left;
-  // final double top;
-  // final double right;
-  // final double bottom;
   final double arrowLength;
   final Widget content;
-  final EdgeInsets balloonPadding;
+  final EdgeInsets ballonPadding;
   final Color backgroundColor;
   final List<BoxShadow> shadows;
-  final VoidCallback? onTap;
-  final Function(_BalloonSize) onSizeChange;
+  final GestureTapCallback? onTap;
+  final Function(_BallonSize) onSizeChange;
 
-  const _Balloon({
+  const _Ballon({
     Key? key,
-    // this.left,
-    // this.top,
-    // this.right,
-    // this.bottom,
     required this.tooltipDirection,
     required this.borderRadius,
     required this.arrowBaseWidth,
@@ -34,7 +26,7 @@ class _Balloon extends StatefulWidget {
     required this.borderWidth,
     required this.arrowLength,
     required this.content,
-    required this.balloonPadding,
+    required this.ballonPadding,
     required this.backgroundColor,
     required this.shadows,
     this.targetCenter,
@@ -43,11 +35,11 @@ class _Balloon extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BalloonState createState() => _BalloonState();
+  _BallonState createState() => _BallonState();
 }
 
-class _BalloonState extends State<_Balloon> {
-  _BalloonSize? _lastSizeNotified;
+class _BallonState extends State<_Ballon> {
+  _BallonSize? _lastSizeNotified;
 
   GlobalKey _containerKey = GlobalKey();
 
@@ -60,17 +52,17 @@ class _BalloonState extends State<_Balloon> {
       if (renderBox == null) return null;
       final Size size = renderBox.size;
       final position = renderBox.localToGlobal(Offset.zero);
-      // print("position : ${position.dx},${position.dy}, Size: ${renderBox.size}");
+      debugPrint("position : ${position.dx},${position.dy}, Size: ${renderBox.size}");
 
       if (_lastSizeNotified == null ||
           _lastSizeNotified!.size != size ||
           _lastSizeNotified!.globalPosition != position) {
-        final ballonSize = _BalloonSize(
+        final ballonSize = _BallonSize(
           size: size,
           globalPosition: position,
           context: context,
         );
-        widget.onSizeChange.call(ballonSize);
+        widget.onSizeChange(ballonSize);
         _lastSizeNotified = ballonSize;
       }
     });
@@ -82,7 +74,7 @@ class _BalloonState extends State<_Balloon> {
         decoration: ShapeDecoration(
           shadows: widget.shadows,
           color: widget.backgroundColor,
-          shape: _BalloonShape(
+          shape: _BallonShape(
             widget.tooltipDirection,
             widget.targetCenter,
             widget.borderRadius,
@@ -90,21 +82,17 @@ class _BalloonState extends State<_Balloon> {
             widget.arrowTipDistance,
             widget.borderColor,
             widget.borderWidth,
-            // left,
-            // top,
-            // right,
-            // bottom,
             widget.arrowLength,
           ),
         ),
-        padding: widget.balloonPadding,
+        padding: widget.ballonPadding,
         child: widget.content,
       ),
     );
   }
 }
 
-class _BalloonShape extends ShapeBorder {
+class _BallonShape extends ShapeBorder {
   final Offset? targetCenter;
   final double arrowBaseWidth;
   final double arrowTipDistance;
@@ -113,9 +101,8 @@ class _BalloonShape extends ShapeBorder {
   final double borderWidth;
   final TooltipDirection tooltipDirection;
   final double arrowLength;
-  // final double left, top, right, bottom;
 
-  _BalloonShape(
+  _BallonShape(
     this.tooltipDirection,
     this.targetCenter,
     this.borderRadius,
@@ -124,10 +111,6 @@ class _BalloonShape extends ShapeBorder {
     this.borderColor,
     this.borderWidth,
     this.arrowLength,
-    // this.left,
-    // this.top,
-    // this.right,
-    // this.bottom,
   );
 
   @override
@@ -142,8 +125,8 @@ class _BalloonShape extends ShapeBorder {
 
   @override
   Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
-    //
-    double topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius;
+
+    late double topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius;
 
     topLeftRadius = /* (left == 0 || top == 0) ? 0.0 : */ borderRadius;
     topRightRadius = /* (right == 0 || top == 0) ? 0.0 : */ borderRadius;
@@ -172,17 +155,14 @@ class _BalloonShape extends ShapeBorder {
             radius: new Radius.circular(topRightRadius), clockwise: false);
     }
 
-    // final Offset targetCenter = this.targetCenter;
     Offset targetCenter = this.targetCenter ?? rect.center;
     if (tooltipDirection == TooltipDirection.right) {
       targetCenter = rect.centerLeft.translate(-arrowLength, 0);
     } else if (tooltipDirection == TooltipDirection.left) {
       targetCenter = rect.centerRight.translate(arrowLength, 0);
     }
-    // print(targetCenter);
 
     switch (tooltipDirection) {
-      //
       case TooltipDirection.down:
         return _getBottomRightPath(rect)
           ..lineTo(
@@ -301,7 +281,7 @@ class _BalloonShape extends ShapeBorder {
 
   @override
   ShapeBorder scale(double t) {
-    return new _BalloonShape(
+    return new _BallonShape(
       tooltipDirection,
       targetCenter,
       borderRadius,
@@ -310,19 +290,15 @@ class _BalloonShape extends ShapeBorder {
       borderColor,
       borderWidth,
       arrowLength,
-      // left,
-      // top,
-      // right,
-      // bottom,
     );
   }
 }
 
-class _BalloonSize {
+class _BallonSize {
   final Size size;
   final Offset globalPosition;
   final BuildContext context;
-  _BalloonSize({
+  _BallonSize({
     required this.size,
     required this.globalPosition,
     required this.context,

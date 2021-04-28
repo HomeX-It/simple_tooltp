@@ -22,7 +22,6 @@ class ObfuscateTooltipItem extends StatefulWidget {
 }
 
 class ObfuscateTooltipItemState extends State<ObfuscateTooltipItem> with WidgetsBindingObserver {
-  // LayerLink _layerLink = LayerLink();
   GlobalKey _key = GlobalKey();
 
   late StreamSubscription _intervalSubscription;
@@ -35,7 +34,7 @@ class ObfuscateTooltipItemState extends State<ObfuscateTooltipItem> with Widgets
     _intervalSubscription = Stream.periodic(Duration(seconds: 1)).listen((event) {
       final currentPositionSize = getPositionAndSize();
       if (_lastPositionSize != currentPositionSize) {
-        // print("Notifying change");
+        debugPrint("Notifying change");
         _notifySizeChange(widget.tooltipKeys);
       }
       _lastPositionSize = currentPositionSize;

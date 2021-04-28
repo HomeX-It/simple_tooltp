@@ -9,9 +9,9 @@ import 'package:simple_tooltip/simple_tooltip.dart';
 
 import 'types.dart';
 
-part 'balloon_transition.dart';
-part 'balloon.dart';
-part 'balloon_positioner.dart';
+part 'ballon_transition.dart';
+part 'ballon.dart';
+part 'ballon_positioner.dart';
 
 class SimpleTooltip extends StatefulWidget {
   /// The [child] which the tooltip will target to
@@ -32,14 +32,11 @@ class SimpleTooltip extends StatefulWidget {
 
   /// Sets the content padding
   /// defautls to: `const EdgeInsets.symmetric(horizontal: 20, vertical: 16),`
-  final EdgeInsets balloonPadding;
+  final EdgeInsets ballonPadding;
 
   /// sets the duration of the tooltip entrance animation
   /// defaults to [460] milliseconds
   final Duration animationDuration;
-
-  /// [top], [right], [bottom], [left] position the Tooltip absolute relative to the whole screen
-  // double top, right, bottom, left;
 
   /// [minWidth], [minHeight], [maxWidth], [maxHeight] optional size constraints.
   /// If a constraint is not set the size will ajust to the content
@@ -109,7 +106,7 @@ class SimpleTooltip extends StatefulWidget {
     required this.show,
     this.targetCenter,
     // this.onClose,
-    this.balloonPadding =
+    this.ballonPadding =
         const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
     this.maxWidth,
     this.minWidth,
@@ -156,7 +153,7 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
   late OverlayEntry _overlayEntry;
 
   List<ObfuscateTooltipItemState> _obfuscateItems = [];
-  _BalloonSize? _balloonSize;
+  _BallonSize? _ballonSize;
 
   addObfuscateItem(ObfuscateTooltipItemState item) {
     _obfuscateItems.add(item);
@@ -177,7 +174,6 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // widget.routeObserver.subscribe(this, ModalRoute.of(context));
   }
 
   @override
@@ -257,16 +253,12 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
   }
 
   doCheckForObfuscation() {
-    if (_balloonSize == null) return;
+    if (_ballonSize == null) return;
     for (var obfuscateItem in _obfuscateItems) {
       final d = obfuscateItem.getPositionAndSize();
       if (d == null) continue;
-      // final obfuscateItemSize = d.size;
-      // final obfuscateItemPosition = d.globalPosition;
-      // final ballonSize = _ballonSize.size;
-      // final balloPosition = _ballonSize.globalPosition;
       final Rect obfuscateItemRect = d.globalPosition & d.size;
-      final Rect ballonRect = _balloonSize!.globalPosition & _balloonSize!.size;
+      final Rect ballonRect = _ballonSize!.globalPosition & _ballonSize!.size;
       final bool overlaps = ballonRect.overlaps(obfuscateItemRect);
       if (overlaps) {
         _isBeingObfuscated = true;
@@ -307,7 +299,7 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
 
     return OverlayEntry(
       builder: (overlayContext) {
-        return _BalloonPositioner(
+        return _BallonPositioner(
           key: _positionerKey,
           link: layerLink,
           tooltipDirection: direction,
@@ -315,7 +307,7 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
           minHeight: widget.minHeight,
           maxWidth: widget.maxWidth,
           minWidth: widget.minWidth,
-          child: _BalloonTransition(
+          child: _BallonTransition(
             key: _transitionKey,
             duration: widget.animationDuration,
             tooltipDirection: direction,
@@ -325,14 +317,14 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
                 _removeTooltip();
               }
             },
-            child: _Balloon(
+            child: _Ballon(
               content: widget.content,
               borderRadius: widget.borderRadius,
               arrowBaseWidth: widget.arrowBaseWidth,
               arrowLength: widget.arrowLength,
               targetCenter: widget.targetCenter,
               arrowTipDistance: widget.arrowTipDistance,
-              balloonPadding: widget.balloonPadding,
+              ballonPadding: widget.ballonPadding,
               borderColor: widget.borderColor,
               borderWidth: widget.borderWidth,
               tooltipDirection: direction,
@@ -349,13 +341,12 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
               },
               onSizeChange: (ballonSize) {
                 if (!mounted) return;
-                _balloonSize = ballonSize;
+                _ballonSize = ballonSize;
                 doCheckForObfuscation();
                 doShowOrHide();
               },
             ),
           ),
-          // arrowBaseWidth: widget.arrowBaseWidth,
           arrowLength: widget.arrowLength,
           arrowTipDistance: widget.arrowTipDistance,
           outsidePadding: widget.minimumOutSidePadding,
