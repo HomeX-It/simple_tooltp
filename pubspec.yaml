@@ -1,10 +1,10 @@
 name: simple_tooltip
 description: A simple library for creating tooltips
-version: 0.1.16
+version: 0.2.0
 homepage: https://github.com/victorevox/simple_tooltp
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:

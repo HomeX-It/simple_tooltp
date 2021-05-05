@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_tooltip/simple_tooltip.dart';
 
 class ObfuscateExamplePage extends StatefulWidget {
-  const ObfuscateExamplePage({Key key}) : super(key: key);
+  const ObfuscateExamplePage({Key? key}) : super(key: key);
 
   @override
   _ObfuscateExamplePageState createState() => _ObfuscateExamplePageState();
@@ -11,9 +11,7 @@ class ObfuscateExamplePage extends StatefulWidget {
 
 class _ObfuscateExamplePageState extends State<ObfuscateExamplePage> {
   bool _show = false;
-  // bool hideOnTap = false;
   TooltipDirection _direction = TooltipDirection.down;
-  // bool _changeBorder = false;
   GlobalKey<SimpleTooltipState> _exampleTooltipKey = GlobalKey();
 
   @override
@@ -26,7 +24,7 @@ class _ObfuscateExamplePageState extends State<ObfuscateExamplePage> {
         child: Container(
           child: Column(
             children: <Widget>[
-              RaisedButton(
+              ElevatedButton(
                 child: Text("toogle: $_show"),
                 onPressed: () {
                   setState(() {
@@ -34,7 +32,7 @@ class _ObfuscateExamplePageState extends State<ObfuscateExamplePage> {
                   });
                 },
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text("change direction"),
                 onPressed: () {
                   setState(() {
@@ -56,7 +54,7 @@ class _ObfuscateExamplePageState extends State<ObfuscateExamplePage> {
                   });
                 },
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text("Show Dialog"),
                 onPressed: () {
                   showGeneralDialog(
@@ -74,7 +72,6 @@ class _ObfuscateExamplePageState extends State<ObfuscateExamplePage> {
                             child: Container(
                               height: 100,
                               width: 300,
-                              // constraints: BoxConstraints(maxHeight: 300),
                               child: Card(
                                 child: Text("Hello"),
                               ),
@@ -92,8 +89,6 @@ class _ObfuscateExamplePageState extends State<ObfuscateExamplePage> {
                   key: _exampleTooltipKey,
                   show: _show,
                   tooltipDirection: _direction,
-                  // hideOnTooltipTap: hideOnTap,
-                  // borderWidth: _changeBorder ? 0 : 3,
                   child: Container(
                     color: Colors.cyan,
                     width: 80,
@@ -105,7 +100,7 @@ class _ObfuscateExamplePageState extends State<ObfuscateExamplePage> {
                     child: Text("content!"),
                     color: Colors.blue,
                   ),
-                  routeObserver: MyApp.of(context).routeObserver,
+                  routeObserver: MyApp.of(context)?.routeObserver,
                 ),
               ),
             ],

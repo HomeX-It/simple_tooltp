@@ -1,29 +1,29 @@
 part of tooltip;
 
-class _BalloonTransition extends StatefulWidget {
+class _BallonTransition extends StatefulWidget {
   final Widget child;
   final Duration duration;
   final TooltipDirection tooltipDirection;
   final bool hide;
-  final Function(AnimationStatus) animationEnd;
+  final Function(AnimationStatus)? animationEnd;
 
-  _BalloonTransition({
-    Key key,
-    @required this.child,
-    @required this.duration,
-    @required this.tooltipDirection,
+  _BallonTransition({
+    Key? key,
+    required this.child,
+    required this.duration,
+    required this.tooltipDirection,
     this.hide = false,
     this.animationEnd,
   }) : super(key: key);
 
   @override
-  _BalloonTransitionState createState() => _BalloonTransitionState();
+  _BallonTransitionState createState() => _BallonTransitionState();
 }
 
-class _BalloonTransitionState extends State<_BalloonTransition>
+class _BallonTransitionState extends State<_BallonTransition>
     with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
-  Animation<double> _rotationAnimation;
+  late AnimationController _animationController;
+  late Animation<double> _rotationAnimation;
 
   @override
   void initState() {
@@ -48,13 +48,13 @@ class _BalloonTransitionState extends State<_BalloonTransition>
       if ((status == AnimationStatus.completed ||
               status == AnimationStatus.dismissed) &&
           widget.animationEnd != null) {
-        widget.animationEnd(status);
+        widget.animationEnd!(status);
       }
     });
   }
 
   @override
-  void didUpdateWidget(_BalloonTransition oldWidget) {
+  void didUpdateWidget(_BallonTransition oldWidget) {
     if (widget.hide) {
       _animationController.reverse();
     }
@@ -68,15 +68,13 @@ class _BalloonTransitionState extends State<_BalloonTransition>
       child: AnimatedBuilder(
         animation: _rotationAnimation,
         builder: (context, _) {
-          // print(_rotationAnimation.value);
-          _BallonTransformation _ballonTransformation =
-              _BallonTransformation.forAnimationValue(
+          _BalloonTransformation _ballonTransformation =
+              _BalloonTransformation.forAnimationValue(
             _rotationAnimation.value,
             widget.tooltipDirection,
           );
           return Transform(
             child: widget.child,
-            // transform: Matrix4.identity()..setEntry(1, 2, _rotationAnimation.value),
             alignment: _ballonTransformation.alignment,
             transform: _ballonTransformation.transformation,
           );
@@ -92,19 +90,19 @@ class _BalloonTransitionState extends State<_BalloonTransition>
   }
 }
 
-class _BallonTransformation {
+class _BalloonTransformation {
   final Matrix4 transformation;
   final FractionalOffset alignment;
 
-  _BallonTransformation({
-    @required this.transformation,
-    @required this.alignment,
+  _BalloonTransformation({
+    required this.transformation,
+    required this.alignment,
   });
 
-  static _BallonTransformation forAnimationValue(
+  static _BalloonTransformation forAnimationValue(
       double value, TooltipDirection tooltipDirection) {
-    Matrix4 transformation;
-    FractionalOffset alignment;
+    late Matrix4 transformation;
+    late FractionalOffset alignment;
     if (tooltipDirection == TooltipDirection.up) {
       transformation = Matrix4.rotationX(value);
       alignment = FractionalOffset.bottomCenter;
@@ -114,11 +112,11 @@ class _BallonTransformation {
     } else if (tooltipDirection == TooltipDirection.right) {
       transformation = Matrix4.rotationY(value);
       alignment = FractionalOffset.centerLeft;
-    } else if (tooltipDirection == TooltipDirection.left) {
+    } else {
       transformation = Matrix4.rotationY(value);
       alignment = FractionalOffset.centerRight;
     }
-    return _BallonTransformation(
+    return _BalloonTransformation(
       alignment: alignment,
       transformation: transformation,
     );
@@ -128,9 +126,9 @@ class _BallonTransformation {
 class _OpacityAnimationWrapper extends StatefulWidget {
   final Duration duration;
   const _OpacityAnimationWrapper({
-    Key key,
-    @required this.child,
-    @required this.duration,
+    Key? key,
+    required this.child,
+    required this.duration,
   }) : super(key: key);
 
   final Widget child;
@@ -146,7 +144,7 @@ class __OpacityAnimationWrapperState extends State<_OpacityAnimationWrapper> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       if (mounted) {
         setState(() {
           _opacity = 1;

@@ -12,36 +12,34 @@ class ObfuscateTooltipItem extends StatefulWidget {
   final Widget child;
 
   const ObfuscateTooltipItem({
-    Key key,
-    @required this.tooltipKeys,
-    @required this.child,
-  })  : assert(tooltipKeys != null),
-        super(key: key);
+    Key? key,
+    required this.tooltipKeys,
+    required this.child,
+  }) : super(key: key);
 
   @override
   ObfuscateTooltipItemState createState() => ObfuscateTooltipItemState();
 }
 
 class ObfuscateTooltipItemState extends State<ObfuscateTooltipItem> with WidgetsBindingObserver {
-  // LayerLink _layerLink = LayerLink();
   GlobalKey _key = GlobalKey();
 
-  StreamSubscription _intervalSubscription;
-  _PositionAndSize _lastPositionSize;
+  late StreamSubscription _intervalSubscription;
+  _PositionAndSize? _lastPositionSize;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
     _intervalSubscription = Stream.periodic(Duration(seconds: 1)).listen((event) {
       final currentPositionSize = getPositionAndSize();
       if (_lastPositionSize != currentPositionSize) {
-        // print("Notifying change");
+        debugPrint("Notifying change");
         _notifySizeChange(widget.tooltipKeys);
       }
       _lastPositionSize = currentPositionSize;
     });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _addToTooltips(widget.tooltipKeys);
     });
   }
@@ -57,7 +55,7 @@ class ObfuscateTooltipItemState extends State<ObfuscateTooltipItem> with Widgets
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance?.removeObserver(this);
     _intervalSubscription.cancel();
     _removeFromTooltips(widget.tooltipKeys);
     super.dispose();
@@ -76,9 +74,9 @@ class ObfuscateTooltipItemState extends State<ObfuscateTooltipItem> with Widgets
     }
   }
 
-  _PositionAndSize getPositionAndSize() {
+  _PositionAndSize? getPositionAndSize() {
     if (!mounted) return null;
-    final RenderBox renderBox = _key.currentContext?.findRenderObject();
+    final RenderBox? renderBox = _key.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null || !renderBox.attached) return null;
     final position = renderBox.localToGlobal(Offset.zero);
     return _PositionAndSize(
@@ -118,9 +116,9 @@ class _PositionAndSize {
   final Size size;
   final Offset globalPosition;
   _PositionAndSize({
-    @required this.context,
-    @required this.size,
-    @required this.globalPosition,
+    required this.context,
+    required this.size,
+    required this.globalPosition,
   });
 
   @override

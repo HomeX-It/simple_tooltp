@@ -1,3 +1,7 @@
+## [0.2.0] - 28/04/21.
+
+* Migrate null safety
+
 ## [0.1.16] - 04/11/20.
 
 * Fixed performance issues https://github.com/victorevox/simple_tooltp/issues/17 
