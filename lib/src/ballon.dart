@@ -52,7 +52,6 @@ class _BallonState extends State<_Ballon> {
       if (renderBox == null) return;
       final Size size = renderBox.size;
       final position = renderBox.localToGlobal(Offset.zero);
-      debugPrint("position : ${position.dx},${position.dy}, Size: ${renderBox.size}");
 
       if (_lastSizeNotified == null ||
           _lastSizeNotified!.size != size ||
