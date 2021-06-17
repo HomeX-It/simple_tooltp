@@ -34,7 +34,6 @@ class ObfuscateTooltipItemState extends State<ObfuscateTooltipItem> with Widgets
     _intervalSubscription = Stream.periodic(Duration(seconds: 1)).listen((event) {
       final currentPositionSize = getPositionAndSize();
       if (_lastPositionSize != currentPositionSize) {
-        debugPrint("Notifying change");
         _notifySizeChange(widget.tooltipKeys);
       }
       _lastPositionSize = currentPositionSize;
