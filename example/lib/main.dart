@@ -3,6 +3,7 @@ import 'package:example/basics_example_page.dart';
 import 'package:example/obfuscate_example_page.dart';
 import 'package:flutter/material.dart';
 import 'animated_example_page.dart';
+import 'down_direction_example.dart';
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
@@ -92,6 +93,14 @@ class OptionsPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (ctx) => ObfuscateExamplePage(),
+                  ));
+                },
+              ),
+              ElevatedButton(
+                child: Text("Direction: Down"),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (ctx) => DownDirectionExample(),
                   ));
                 },
               ),
