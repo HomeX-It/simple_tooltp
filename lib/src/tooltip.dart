@@ -128,7 +128,7 @@ class SimpleTooltip extends StatefulWidget {
     this.tooltipTap,
     this.hideOnTooltipTap = false,
     this.routeObserver,
-  })  : super(key: key);
+  }) : super(key: key);
 
   @override
   SimpleTooltipState createState() => SimpleTooltipState();
@@ -190,7 +190,8 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
       if (shouldShowTooltip) {
         _showTooltip();
       }
-      widget.routeObserver?.subscribe(this, ModalRoute.of(context) as PageRoute<dynamic>);
+      widget.routeObserver
+          ?.subscribe(this, ModalRoute.of(context) as PageRoute<dynamic>);
     });
   }
 
@@ -198,7 +199,8 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
   void didUpdateWidget(SimpleTooltip oldWidget) {
     if (oldWidget.routeObserver != widget.routeObserver) {
       oldWidget.routeObserver?.unsubscribe(this);
-      widget.routeObserver?.subscribe(this, ModalRoute.of(context) as PageRoute<dynamic>);
+      widget.routeObserver
+          ?.subscribe(this, ModalRoute.of(context) as PageRoute<dynamic>);
     }
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (oldWidget.tooltipDirection != widget.tooltipDirection ||
@@ -278,7 +280,9 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
         direction == TooltipDirection.vertical) {
       // compute real direction based on target position
       final targetRenderBox = context.findRenderObject() as RenderBox;
-      final overlayRenderBox = Overlay.of(context, rootOverlay: false)?.context.findRenderObject() as RenderBox?;
+      final overlayRenderBox = Overlay.of(context, rootOverlay: false)
+          ?.context
+          .findRenderObject() as RenderBox?;
 
       final targetGlobalCenter = targetRenderBox.localToGlobal(
           targetRenderBox.size.center(Offset.zero),
@@ -287,13 +291,13 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
       if (overlayRenderBox != null) {
         direction = (direction == TooltipDirection.vertical)
             ? (targetGlobalCenter.dy <
-            overlayRenderBox.size.center(Offset.zero).dy
-            ? TooltipDirection.down
-            : TooltipDirection.up)
+                    overlayRenderBox.size.center(Offset.zero).dy
+                ? TooltipDirection.down
+                : TooltipDirection.up)
             : (targetGlobalCenter.dx <
-            overlayRenderBox.size.center(Offset.zero).dx
-            ? TooltipDirection.right
-            : TooltipDirection.left);
+                    overlayRenderBox.size.center(Offset.zero).dx
+                ? TooltipDirection.right
+                : TooltipDirection.left);
       }
     }
 

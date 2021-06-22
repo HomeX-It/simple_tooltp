@@ -21,7 +21,8 @@ class ObfuscateTooltipItem extends StatefulWidget {
   ObfuscateTooltipItemState createState() => ObfuscateTooltipItemState();
 }
 
-class ObfuscateTooltipItemState extends State<ObfuscateTooltipItem> with WidgetsBindingObserver {
+class ObfuscateTooltipItemState extends State<ObfuscateTooltipItem>
+    with WidgetsBindingObserver {
   GlobalKey _key = GlobalKey();
 
   late StreamSubscription _intervalSubscription;
@@ -31,7 +32,8 @@ class ObfuscateTooltipItemState extends State<ObfuscateTooltipItem> with Widgets
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
-    _intervalSubscription = Stream.periodic(Duration(seconds: 1)).listen((event) {
+    _intervalSubscription =
+        Stream.periodic(Duration(seconds: 1)).listen((event) {
       final currentPositionSize = getPositionAndSize();
       if (_lastPositionSize != currentPositionSize) {
         _notifySizeChange(widget.tooltipKeys);
@@ -75,7 +77,8 @@ class ObfuscateTooltipItemState extends State<ObfuscateTooltipItem> with Widgets
 
   _PositionAndSize? getPositionAndSize() {
     if (!mounted) return null;
-    final RenderBox? renderBox = _key.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? renderBox =
+        _key.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null || !renderBox.attached) return null;
     final position = renderBox.localToGlobal(Offset.zero);
     return _PositionAndSize(
@@ -124,7 +127,9 @@ class _PositionAndSize {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is _PositionAndSize && o.size == size && o.globalPosition == globalPosition;
+    return o is _PositionAndSize &&
+        o.size == size &&
+        o.globalPosition == globalPosition;
   }
 
   @override
