@@ -10,9 +10,10 @@ class DownDirectionExample extends StatefulWidget {
 
 class _DownDirectionExampleState extends State<DownDirectionExample> {
   bool _show = false;
-
+  GlobalKey key = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    var dx = key.globalPaintBounds.left + key.globalPaintBounds.width/2;
     return Scaffold(
       appBar: AppBar(
         title: Text("Down Direction"),
@@ -27,6 +28,7 @@ class _DownDirectionExampleState extends State<DownDirectionExample> {
             maxWidth: 300,
             tooltipDirection: TooltipDirection.down,
             arrowTipDistance: 10,
+            targetCenter: Offset(dx,0),
             animationDuration: Duration(milliseconds: 50),
             content: Text(
               "Some text example!!!! THIS IS A VERY LOOOOOOOOOOOOOOOOOOOOOOOONG TEXT",
@@ -36,17 +38,36 @@ class _DownDirectionExampleState extends State<DownDirectionExample> {
                 decoration: TextDecoration.none,
               ),
             ),
-            child: ElevatedButton(
-              child: Text('toggle tooltip'),
-              onPressed: () {
-                setState(() {
-                  _show = !_show;
-                });
-              },
+            child: Padding(
+              padding: new EdgeInsets.all(10.0),
+              child: ElevatedButton(
+                key: key,
+                child: Text('toggle tooltip'),
+                onPressed: () {
+                  setState(() {
+                    _show = !_show;
+                  });
+                },
+              ),
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+
+extension GlobalKeyExtension on GlobalKey {
+  Rect get globalPaintBounds {
+    final renderObject = currentContext?.findRenderObject();
+    var translation = renderObject?.getTransformTo(null).getTranslation();
+    if (translation != null) {
+      return renderObject!.paintBounds
+          .shift(Offset(translation.x, translation.y));
+    } else {
+      return renderObject!.paintBounds
+          .shift(Offset(0, 0));
+    }
   }
 }
