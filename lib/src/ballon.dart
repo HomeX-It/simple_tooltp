@@ -124,8 +124,10 @@ class _BallonShape extends ShapeBorder {
 
   @override
   Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
-
-    late double topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius;
+    late double topLeftRadius,
+        topRightRadius,
+        bottomLeftRadius,
+        bottomRightRadius;
 
     topLeftRadius = /* (left == 0 || top == 0) ? 0.0 : */ borderRadius;
     topRightRadius = /* (right == 0 || top == 0) ? 0.0 : */ borderRadius;
